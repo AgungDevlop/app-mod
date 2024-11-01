@@ -1,0 +1,56 @@
+[
+  {
+    "icon": "https://via.placeholder.com/64",
+    "banner": "https://via.placeholder.com/400x200",
+    "images": [
+      "https://via.placeholder.com/400x200",
+      "https://via.placeholder.com/400x200",
+      "https://via.placeholder.com/400x200"
+    ],
+    "title": "Mod Game A",
+    "slug": "mod-game-a",
+    "version": "1.0.0",
+    "features": ["Enhanced Graphics", "Unlimited Resources", "Ad-Free Experience"],
+    "size": "150 MB",
+    "date": "Release at: 2024-11-01",
+    "price": "$1.99",
+    "developer": "Developer A",
+    "shortDescription": "This is a short description for Mod Game A.",
+    "longDescription": "This is a long description for Mod Game A that provides more details about the game's features and gameplay.",
+    "download": [
+      "https://example.com/download1",
+      "https://example.com/download2"
+    ],
+    "category": "Action",
+    "type": "Game",
+    "minVersion": "Android 5.0",
+    "package": "com.example.modgame"
+  },
+  {
+    "icon": "https://via.placeholder.com/64",
+    "banner": "https://via.placeholder.com/400x200",
+    "images": [
+      "https://via.placeholder.com/400x200",
+      "https://via.placeholder.com/400x200",
+      "https://via.placeholder.com/400x200"
+    ],
+    "title": "Mod Game B",
+    "slug": "mod-game-b",
+    "version": "2.1.0",
+    "features": ["New Levels", "Multiplayer Mode", "High-Resolution Textures"],
+    "size": "200 MB",
+    "date": "Release at: 2024-11-02",
+    "price": "$2.99",
+    "developer": "Developer B",
+    "shortDescription": "This is a short description for Mod Game B.",
+    "longDescription": "This is a long description for Mod Game B that provides more details about the game's new levels and multiplayer mode.",
+    "download": [
+      "https://example.com/download3",
+      "https://example.com/download4"
+    ],
+    "category": "Adventure",
+    "type": "Game",
+    "minVersion": "Android 6.0",
+    "package": "com.example.modgameb"
+  }
+]

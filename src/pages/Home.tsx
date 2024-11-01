@@ -1,0 +1,184 @@
+import React, { useEffect, useState } from "react";
+import { BiSearch } from "react-icons/bi";
+
+interface AppPost {
+  icon: string;
+  title: string;
+  shortDescription: string;
+  longDescription: string;
+  date: string;
+  slug: string;
+  category: string;
+  type: string;
+  version: string; // Add version property
+}
+
+export function Home() {
+  const [posts, setPosts] = useState<AppPost[]>([]);
+  const [originalPosts, setOriginalPosts] = useState<AppPost[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("../../databases/app.json");
+      const data = await response.json();
+      setOriginalPosts(data);
+      setPosts(shuffleArray(data));
+
+      const uniqueCategories = Array.from(new Set(data.map((post: AppPost) => post.category)));
+      setCategories(uniqueCategories);
+
+      const uniqueTypes = Array.from(new Set(data.map((post: AppPost) => post.type)));
+      setTypes(uniqueTypes);
+    };
+
+    fetchData();
+  }, []);
+
+  const shuffleArray = (array: AppPost[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  const filterPosts = () => {
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    const filteredPosts = originalPosts.filter((post) => {
+      const matchesSearch =
+        post.title.toLowerCase().includes(lowerCaseQuery) ||
+        post.shortDescription.toLowerCase().includes(lowerCaseQuery) ||
+        post.longDescription.toLowerCase().includes(lowerCaseQuery);
+      const matchesCategory = selectedCategory ? post.category === selectedCategory : true;
+      const matchesType = selectedType ? post.type === selectedType : true;
+
+      return matchesSearch && matchesCategory && matchesType;
+    });
+
+    setPosts(filteredPosts);
+  };
+
+  const handleSearch = () => {
+    filterPosts();
+  };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value === "") {
+      setPosts(originalPosts); // Reset to original posts if input is cleared
+    }
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+    filterPosts(); // Re-filter when category changes
+  };
+
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedType(e.target.value);
+    filterPosts(); // Re-filter when type changes
+  };
+
+  useEffect(() => {
+    filterPosts(); // Re-filter posts when searchQuery changes
+  }, [searchQuery, selectedCategory, selectedType]);
+
+  return (
+    <div className="container mx-auto px-4 py-6">
+      {/* Hero Section */}
+      <section className="bg-green-700 text-white rounded-lg p-6 mb-6 shadow-lg">
+        <h1 className="text-4xl font-extrabold mb-2">Selamat Datang di Kedai Mod!</h1>
+        <p className="text-base">Temukan aplikasi mod terbaik untuk pengalaman bermain yang lebih seru.</p>
+      </section>
+
+      {/* Filter Section */}
+      <div className="flex mb-6 space-x-4">
+        <select
+          className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+        >
+          <option value="">Pilih Kategori</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          value={selectedType}
+          onChange={handleTypeChange}
+        >
+          <option value="">Pilih App/Game</option>
+          {types.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Search Bar */}
+      <div className="flex items-center mb-6">
+        <input
+          type="text"
+          placeholder="Cari aplikasi..."
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+          className="flex-1 border border-gray-300 rounded-lg p-2 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+        <button
+          className="bg-green-600 text-white rounded-lg p-2 hover:bg-green-700 transition duration-200"
+          onClick={handleSearch}
+        >
+          <BiSearch className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Featured Apps Section */}
+      <section className="mb-6">
+        <ul className="space-y-4">
+          {posts.map((post) => (
+            <li key={post.slug} className="relative bg-white rounded-lg shadow-lg p-4 flex justify-between items-center hover:shadow-xl transition-shadow duration-200">
+              {/* Advertisement-Style Label in the top left corner */}
+              <div className="absolute top-0 left-0 bg-red-600 text-white text-xs font-bold px-1 py-0.5 rounded-br-lg shadow-lg">
+                Mod
+              </div>
+
+              <div className="flex items-center space-x-4">
+                {/* Rounded Full Icon with Border */}
+                <img
+                  src={post.icon}
+                  alt={post.title}
+                  className="w-16 h-16 object-cover rounded-full border-2 border-gray-300 shadow"
+                />
+                <div className="flex-1">
+                  {/* Smaller Title with Text Truncation */}
+                  <h3 className="text-sm font-bold text-black truncate">{post.title}</h3>
+                  <p className="text-gray-500 text-sm">{post.category} - {post.type}</p>
+                  <p className="text-gray-600 text-xs">{post.date}</p>
+                </div>
+              </div>
+              <a href={`/app-mod/apps/${post.slug}`}>
+                <button className="bg-green-600 text-white text-xs py-1 px-2 rounded hover:bg-green-700 transition duration-200">
+                  Download
+                </button>
+              </a>
+              {/* Version display in the bottom right corner */}
+              <span className="absolute bottom-2 right-2 text-gray-500 text-xs">
+                Version: {post.version} {/* Displaying the version */}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}

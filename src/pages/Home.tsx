@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 interface AppPost {
   icon: string;
@@ -26,7 +27,7 @@ export function Home() {
     const fetchData = async () => {
       try {
         const response = await fetch("../../databases/app.json");
-        const data: AppPost[] = await response.json(); // Ensure data is of type AppPost[]
+        const data: AppPost[] = await response.json();
 
         setOriginalPosts(data);
         setPosts(shuffleArray(data));
@@ -170,11 +171,11 @@ export function Home() {
                   <p className="text-gray-600 text-xs">{post.date}</p>
                 </div>
               </div>
-              <a href={`/app-mod/apps/${post.slug}`}>
+              <Link to={`/app-mod/apps/${post.slug}`}>
                 <button className="bg-green-600 text-white text-xs py-1 px-2 rounded hover:bg-green-700 transition duration-200">
                   Download
                 </button>
-              </a>
+              </Link>
               {/* Version display in the bottom right corner */}
               <span className="absolute bottom-2 right-2 text-gray-500 text-xs">
                 Version: {post.version} {/* Displaying the version */}

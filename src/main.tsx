@@ -2,18 +2,18 @@ import React from "react";
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Layout from "./components/Layout";
 import { Home } from "./pages/Home";
 import { Contact } from "./pages/Contact";
-import { Post } from "./pages/Post"; // Import Post component
+import { Post } from "./pages/Post";
+import App from "./App.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/app-mod/",
-    element: <Layout />,
+    element: <App />,
     children: [
       {
-        path: "/app-mod/",
+        path:"/app-mod/" , // Menggunakan index agar Home menjadi rute default
         element: <Home />,
       },
       {
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "/app-mod/apps/:slug", // Dynamic route for Post
-        element: <Post />, // Render Post component
+        path: "/app-mod/apps/:slug",
+        element: <Post />,
       },
     ],
   },

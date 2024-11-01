@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,10 +45,10 @@ const Header: React.FC = () => {
           </div>
           <div className="hidden sm:block">
             <div className="flex space-x-4">
-              <a href="/app-mod/" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/')}`}>Home</a>
-              <a href="/app-mod/apps" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/apps')}`}>Aplikasi Mod</a>
-              <a href="/app-mod/about" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/about')}`}>Tentang Kami</a>
-              <a href="/app-mod/contact" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/contact')}`}>Kontak</a>
+              <Link to="/app-mod/" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/')}`}>Home</Link>
+              <Link to="/app-mod/apps" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/apps')}`}>Aplikasi Mod</Link>
+              <Link to="/app-mod/about" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/about')}`}>Tentang Kami</Link>
+              <Link to="/app-mod/contact" className={`rounded-md px-3 py-2 text-sm font-medium ${isActive('/app-mod/contact')}`}>Kontak</Link>
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center sm:hidden">
@@ -69,10 +69,10 @@ const Header: React.FC = () => {
         className={`${isOpen ? "block" : "hidden"} absolute inset-x-0 top-16 bg-green-700 sm:hidden z-20`}
       >
         <div className="space-y-1 px-2 pb-3 pt-2">
-          <a href="/app-mod/" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/')}`}>Home</a>
-          <a href="/app-mod/apps" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/apps')}`}>Aplikasi Mod</a>
-          <a href="/app-mod/about" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/about')}`}>Tentang Kami</a>
-          <a href="/app-mod/contact" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/contact')}`}>Kontak</a>
+          <Link to="/app-mod/" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/')}`}>Home</Link>
+          <Link to="/app-mod/apps" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/apps')}`}>Aplikasi Mod</Link>
+          <Link to="/app-mod/about" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/about')}`}>Tentang Kami</Link>
+          <Link to="/app-mod/contact" className={`block rounded-md px-3 py-2 text-base font-medium ${isActive('/app-mod/contact')}`}>Kontak</Link>
         </div>
       </div>
     </nav>

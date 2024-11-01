@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 interface AppPost {
@@ -30,36 +30,36 @@ export const Post = () => {
   const [progress, setProgress] = useState(0);
   const [showDownloadLinks, setShowDownloadLinks] = useState(false);
 
-  useEffect(() => {
-      const fetchPostData = async () => {
-        const response = await fetch("../../databases/app.json");
-        const data: AppPost[] = await response.json();
-        const foundPost = data.find((item) => item.slug === slug);
-        setPost(foundPost || null);
-  
-        if (foundPost) {
-          // Update document title
-          document.title = foundPost.title;
-  
-          // Update favicon
-          const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
-          if (favicon) {
-            favicon.href = foundPost.icon;
-          }
-  
-          // Update meta description
-          let metaDescription = document.querySelector("meta[name='description']");
-          if (!metaDescription) {
-            metaDescription = document.createElement("meta");
-            metaDescription.name = "description";
-            document.head.appendChild(metaDescription);
-          }
-          metaDescription.content = foundPost.shortDescription;
+useEffect(() => {
+    const fetchPostData = async () => {
+      const response = await fetch("../../databases/app.json");
+      const data: AppPost[] = await response.json();
+      const foundPost = data.find((item) => item.slug === slug);
+      setPost(foundPost || null);
+
+      if (foundPost) {
+        // Update document title
+        document.title = foundPost.title;
+
+        // Update favicon
+        const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
+        if (favicon) {
+          favicon.href = foundPost.icon;
         }
-      };
-  
-      fetchPostData();
-    }, [slug]);
+
+        // Update meta description
+        let metaDescription = document.querySelector("meta[name='description']") as HTMLMetaElement;
+        if (!metaDescription) {
+          metaDescription = document.createElement("meta");
+          metaDescription.name = "description";
+          document.head.appendChild(metaDescription);
+        }
+        metaDescription.content = foundPost.shortDescription;
+      }
+    };
+
+    fetchPostData();
+  }, [slug]);
 
   const handleDownloadClick = () => {
     setIsDownloading(true);

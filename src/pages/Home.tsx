@@ -24,22 +24,27 @@ export function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("../../databases/app.json");
-      const data = await response.json();
-      setOriginalPosts(data);
-      setPosts(shuffleArray(data));
+      try {
+        const response = await fetch("../../databases/app.json");
+        const data: AppPost[] = await response.json(); // Ensure data is of type AppPost[]
 
-      const uniqueCategories = Array.from(new Set(data.map((post: AppPost) => post.category)));
-      setCategories(uniqueCategories);
+        setOriginalPosts(data);
+        setPosts(shuffleArray(data));
 
-      const uniqueTypes = Array.from(new Set(data.map((post: AppPost) => post.type)));
-      setTypes(uniqueTypes);
+        const uniqueCategories = Array.from(new Set(data.map((post) => post.category)));
+        setCategories(uniqueCategories);
+
+        const uniqueTypes = Array.from(new Set(data.map((post) => post.type)));
+        setTypes(uniqueTypes);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      }
     };
 
     fetchData();
   }, []);
 
-  const shuffleArray = (array: AppPost[]) => {
+  const shuffleArray = (array: AppPost[]): AppPost[] => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
@@ -63,29 +68,28 @@ export function Home() {
     setPosts(filteredPosts);
   };
 
-  const handleSearch = () => {
-    filterPosts();
-  };
-
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-    if (e.target.value === "") {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query === "") {
       setPosts(originalPosts); // Reset to original posts if input is cleared
+    } else {
+      filterPosts();
     }
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCategory(e.target.value);
-    filterPosts(); // Re-filter when category changes
+    filterPosts();
   };
 
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedType(e.target.value);
-    filterPosts(); // Re-filter when type changes
+    filterPosts();
   };
 
   useEffect(() => {
-    filterPosts(); // Re-filter posts when searchQuery changes
+    filterPosts(); // Re-filter posts when searchQuery, selectedCategory, or selectedType changes
   }, [searchQuery, selectedCategory, selectedType]);
 
   return (
@@ -136,7 +140,7 @@ export function Home() {
         />
         <button
           className="bg-green-600 text-white rounded-lg p-2 hover:bg-green-700 transition duration-200"
-          onClick={handleSearch}
+          onClick={filterPosts}
         >
           <BiSearch className="w-5 h-5" />
         </button>

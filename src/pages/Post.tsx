@@ -72,7 +72,6 @@ useEffect(() => {
 }, [slug]);
 
 
-
   const handleDownloadClick = () => {
     setIsDownloading(true);
     setProgress(0);

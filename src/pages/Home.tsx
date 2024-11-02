@@ -26,7 +26,7 @@ export function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://raw.githubusercontent.com/AgungDevlop/app-mod/refs/heads/main/databases/app.json");
+        const response = await fetch("../../databases/app.json");
         const data: AppPost[] = await response.json();
 
         setOriginalPosts(data);

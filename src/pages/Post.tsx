@@ -31,35 +31,47 @@ export const Post = () => {
   const [showDownloadLinks, setShowDownloadLinks] = useState(false);
 
 useEffect(() => {
-    const fetchPostData = async () => {
-      const response = await fetch("../../databases/app.json");
-      const data: AppPost[] = await response.json();
-      const foundPost = data.find((item) => item.slug === slug);
-      setPost(foundPost || null);
+  const fetchPostData = async () => {
+    const response = await fetch("../../databases/app.json");
+    const data: AppPost[] = await response.json();
+    const foundPost = data.find((item) => item.slug === slug);
+    setPost(foundPost || null);
 
-      if (foundPost) {
-        // Update document title
-        document.title = foundPost.title;
+    if (foundPost) {
+      // Update document title
+      document.title = foundPost.title;
 
-        // Update favicon
-        const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
-        if (favicon) {
-          favicon.href = foundPost.icon;
-        }
-
-        // Update meta description
-        let metaDescription = document.querySelector("meta[name='description']") as HTMLMetaElement;
-        if (!metaDescription) {
-          metaDescription = document.createElement("meta");
-          metaDescription.name = "description";
-          document.head.appendChild(metaDescription);
-        }
-        metaDescription.content = foundPost.shortDescription;
+      // Update favicon
+      const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
+      if (favicon) {
+        favicon.href = foundPost.icon;
       }
-    };
 
-    fetchPostData();
-  }, [slug]);
+      // Open Graph meta tags
+      const metaTags = [
+        { property: "og:title", content: foundPost.title },
+        { property: "og:description", content: foundPost.shortDescription },
+        { property: "og:image", content: foundPost.icon }, // Use post.icon for the image
+        { property: "og:url", content: window.location.href }, // Current page URL
+        { property: "og:type", content: "website" }
+      ];
+
+      metaTags.forEach(({ property, content }) => {
+        let meta = document.querySelector(`meta[property='${property}']`) as HTMLMetaElement;
+        if (!meta) {
+          meta = document.createElement("meta");
+          meta.setAttribute("property", property);
+          document.head.appendChild(meta);
+        }
+        meta.content = content;
+      });
+    }
+  };
+
+  fetchPostData();
+}, [slug]);
+
+
 
   const handleDownloadClick = () => {
     setIsDownloading(true);

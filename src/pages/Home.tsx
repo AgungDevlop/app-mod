@@ -26,7 +26,7 @@ export function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("../../databases/app.json");
+        const response = await fetch("https://raw.githubusercontent.com/AgungDevlop/app-mod/refs/heads/main/databases/app.json");
         const data: AppPost[] = await response.json();
 
         setOriginalPosts(data);
@@ -95,11 +95,6 @@ export function Home() {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      {/* Hero Section */}
-      <section className="bg-green-700 text-white rounded-lg p-6 mb-6 shadow-lg">
-        <h1 className="text-4xl font-extrabold mb-2">Selamat Datang di Kedai Mod!</h1>
-        <p className="text-base">Temukan aplikasi mod terbaik untuk pengalaman bermain yang lebih seru.</p>
-      </section>
 
       {/* Filter Section */}
       <div className="flex mb-6 space-x-4">

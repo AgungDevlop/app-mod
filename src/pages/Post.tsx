@@ -30,54 +30,46 @@ export const Post = () => {
   const [progress, setProgress] = useState(0);
   const [showDownloadLinks, setShowDownloadLinks] = useState(false);
 
-useEffect(() => {
-<<<<<<< HEAD
-  const fetchPostData = async () => {
-    const response = await fetch("../../databases/app.json");
-    const data: AppPost[] = await response.json();
-    const foundPost = data.find((item) => item.slug === slug);
-    setPost(foundPost || null);
-=======
+  useEffect(() => {
     const fetchPostData = async () => {
       const response = await fetch("https://raw.githubusercontent.com/AgungDevlop/app-mod/refs/heads/main/databases/app.json");
       const data: AppPost[] = await response.json();
       const foundPost = data.find((item) => item.slug === slug);
       setPost(foundPost || null);
->>>>>>> 2fe22242fa4eca20ea3a76680f38f49418ebc1c8
 
-    if (foundPost) {
-      // Update document title
-      document.title = foundPost.title;
+      if (foundPost) {
+        // Update document title
+        document.title = foundPost.title;
 
-      // Update favicon
-      const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
-      if (favicon) {
-        favicon.href = foundPost.icon;
-      }
-
-      // Open Graph meta tags
-      const metaTags = [
-        { property: "og:title", content: foundPost.title },
-        { property: "og:description", content: foundPost.shortDescription },
-        { property: "og:image", content: foundPost.icon }, // Use post.icon for the image
-        { property: "og:url", content: window.location.href }, // Current page URL
-        { property: "og:type", content: "website" }
-      ];
-
-      metaTags.forEach(({ property, content }) => {
-        let meta = document.querySelector(`meta[property='${property}']`) as HTMLMetaElement;
-        if (!meta) {
-          meta = document.createElement("meta");
-          meta.setAttribute("property", property);
-          document.head.appendChild(meta);
+        // Update favicon
+        const favicon = document.querySelector("link[rel='icon']") as HTMLLinkElement;
+        if (favicon) {
+          favicon.href = foundPost.icon;
         }
-        meta.content = content;
-      });
-    }
-  };
 
-  fetchPostData();
-}, [slug]);
+        // Open Graph meta tags
+        const metaTags = [
+          { property: "og:title", content: foundPost.title },
+          { property: "og:description", content: foundPost.shortDescription },
+          { property: "og:image", content: foundPost.icon },
+          { property: "og:url", content: window.location.href },
+          { property: "og:type", content: "website" }
+        ];
+
+        metaTags.forEach(({ property, content }) => {
+          let meta = document.querySelector(`meta[property='${property}']`) as HTMLMetaElement;
+          if (!meta) {
+            meta = document.createElement("meta");
+            meta.setAttribute("property", property);
+            document.head.appendChild(meta);
+          }
+          meta.content = content;
+        });
+      }
+    };
+
+    fetchPostData();
+  }, [slug]);
 
   const handleDownloadClick = () => {
     setIsDownloading(true);
@@ -117,8 +109,8 @@ useEffect(() => {
       <div className="p-6 mb-6">
         <div className="flex flex-col items-start mb-4">
           <h1 className="text-2xl font-bold">
-            <span className="text-blue-600">Download {post.title}</span> 
-            <span className="text-pink-600"> Mod Apk ({post.features.join(", ")})</span> 
+            <span className="text-blue-600">Download {post.title}</span>
+            <span className="text-pink-600"> Mod Apk ({post.features.join(", ")})</span>
             <span className="text-green-600"> V {post.version}</span>
           </h1>
         </div>
@@ -236,52 +228,36 @@ useEffect(() => {
         {/* Fitur yang Ditawarkan */}
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-2">Fitur yang Ditawarkan {post.title}</h2>
-          <p className="text-gray-700 mb-4">
-            Aplikasi {post.title} dilengkapi dengan berbagai fitur unggulan yang dirancang untuk meningkatkan pengalaman pengguna. Berikut adalah beberapa fitur utama yang dapat kalian nikmati:
-          </p>
-          <ul className="list-disc list-inside text-gray-700 mb-4">
+          <ul className="list-disc list-inside mb-4">
             {post.features.map((feature, index) => (
-              <li key={index}>{feature}</li>
+              <li key={index} className="text-gray-700">
+                {feature}
+              </li>
             ))}
           </ul>
-          <p className="text-gray-700">
-            Dengan semua fitur tersebut, {post.title} tidak hanya sekadar aplikasi biasa. Ini adalah solusi ideal untuk kebutuhan kalian, memberikan pengalaman yang luar biasa dan memudahkan banyak hal dalam kehidupan sehari-hari.
-          </p>
         </div>
 
-      {showDownloadLinks && (
-        <div className="mt-6">
-          <h2 className="text-xl font-bold mb-2">Link Download</h2>
-          <div className="flex flex-col space-y-4">
-            {post.download.map((link, index) => (
-              <a
-                key={index}
-                href={link}
-                className="relative bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg w-full"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold px-1 py-0.5 rounded-bl-lg shadow-lg">
-                  Server {index + 1}
-                </div>
-                Link Download {index + 1}
-              </a>
-            ))}
+        {/* Download Links Section */}
+        {showDownloadLinks && (
+          <div className="mt-6">
+            <h2 className="text-xl font-bold mb-2">Link Download {post.title}</h2>
+            <div className="flex flex-col space-y-2">
+              {post.download.map((link, index) => (
+                <a key={index} href={link} target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white py-2 px-4 rounded-lg">
+                  Download Link {index + 1}
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-
-
-
-
-
-        {/* Conclusion Section */}
+        )}
+        
+                {/* Conclusion Section */}
         <h2 className="text-xl font-bold mb-2">Kesimpulan</h2>
         <p className="text-gray-700 mb-4">
           Dengan berbagai fitur dan kemudahan yang ditawarkan, {post.title} adalah pilihan tepat bagi kalian yang mencari aplikasi berkualitas. Jangan lewatkan kesempatan untuk mencoba dan nikmati setiap fiturnya!
         </p>
+        
       </div>
     </div>
   );
 };
-

@@ -71,6 +71,7 @@ useEffect(() => {
   fetchPostData();
 }, [slug]);
 
+
   const handleDownloadClick = () => {
     setIsDownloading(true);
     setProgress(0);

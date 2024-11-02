@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
+
 interface AppPost {
   icon: string;
   title: string;

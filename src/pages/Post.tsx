@@ -31,11 +31,19 @@ export const Post = () => {
   const [showDownloadLinks, setShowDownloadLinks] = useState(false);
 
 useEffect(() => {
+<<<<<<< HEAD
   const fetchPostData = async () => {
     const response = await fetch("../../databases/app.json");
     const data: AppPost[] = await response.json();
     const foundPost = data.find((item) => item.slug === slug);
     setPost(foundPost || null);
+=======
+    const fetchPostData = async () => {
+      const response = await fetch("https://raw.githubusercontent.com/AgungDevlop/app-mod/refs/heads/main/databases/app.json");
+      const data: AppPost[] = await response.json();
+      const foundPost = data.find((item) => item.slug === slug);
+      setPost(foundPost || null);
+>>>>>>> 2fe22242fa4eca20ea3a76680f38f49418ebc1c8
 
     if (foundPost) {
       // Update document title
